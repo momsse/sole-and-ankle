@@ -5,6 +5,11 @@ import { COLORS, WEIGHTS } from '../../constants';
 import { formatPrice, pluralize, isNewShoe } from '../../utils';
 import Spacer from '../Spacer';
 
+
+const SALE_PRICE_MESSAGES = {
+  'on-sale': 'Sale',
+  'new-release': 'Just release!',
+}
 const ShoeCard = ({
   slug,
   name,
@@ -36,6 +41,12 @@ const ShoeCard = ({
       <Wrapper>
         <ImageWrapper>
           <Image alt="" src={imageSrc} />
+           {variant !== 'default'
+            && (
+              <SalePrice variant={variant}>
+                {SALE_PRICE_MESSAGES[variant]}
+              </SalePrice>
+          )}
         </ImageWrapper>
         <Spacer size={12} />
         <Row>
@@ -55,7 +66,9 @@ const Link = styled.a`
   color: inherit;
 `;
 
-const Wrapper = styled.article``;
+const Wrapper = styled.article`
+ position: relative;
+`;
 
 const ImageWrapper = styled.div`
   position: relative;
@@ -67,11 +80,13 @@ const Image = styled.img`
 
 const Row = styled.div`
   font-size: 1rem;
+  display: flex;
 `;
 
 const Name = styled.h3`
   font-weight: ${WEIGHTS.medium};
   color: ${COLORS.gray[900]};
+  margin-right: auto;
 `;
 
 const Price = styled.span``;
@@ -82,7 +97,13 @@ const ColorInfo = styled.p`
 
 const SalePrice = styled.span`
   font-weight: ${WEIGHTS.medium};
-  color: ${COLORS.primary};
+  font-size: ${14/16}rem;
+  color: ${COLORS.white};
+  background-color: ${p => p.variant === 'on-sale' ? COLORS.primary : COLORS.secondary};
+  padding: 8px;
+  position: absolute;
+  top: 12px;
+  right: -4px;
 `;
 
 export default ShoeCard;
